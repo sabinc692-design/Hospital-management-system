@@ -194,14 +194,7 @@ API endpoints can be tested using:
 
 ---
 
-## 📷 Screenshots
 
-You can add screenshots here:
-
-* Project Structure
-* Postman API Testing
-* Database Tables
-* Authentication Flow
 
 ---
 
