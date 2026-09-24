@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import DashboardLayout from '../../components/DashboardLayout'
-import axios from 'axios'
-import { API_BASE_URL } from '../../config/api'
+import { api } from '../../config/api'
 
 const navItems = [
   { label: 'Overview',     icon: '🏠', path: '/admin/overreview' },
@@ -24,9 +23,7 @@ export default function AdminPatients() {
     setLoading(true)
     let fetched = []
     try {
-      const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
-      const headers = token ? { Authorization: `Bearer ${token}` } : {};
-      const res = await axios.get(`${API_BASE_URL}/api/patients`, { headers })
+      const res = await api.get('/api/patients')
       if (res.data?.data) {
         fetched = res.data.data.map(p => ({
           id: p.id,
@@ -45,9 +42,7 @@ export default function AdminPatients() {
     }
 
     try {
-      const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
-      const headers = token ? { Authorization: `Bearer ${token}` } : {};
-      const userRes = await axios.get(`${API_BASE_URL}/api/users`, { headers })
+      const userRes = await api.get('/api/users')
       if (userRes.data?.data) {
         const patientUsers = userRes.data.data.filter(u => u.role === 'Patient')
         patientUsers.forEach(u => {

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import DashboardLayout from '../../components/DashboardLayout'
-import axios from 'axios'
-import { API_BASE_URL } from '../../config/api'
+import { api } from '../../config/api'
 
 const navItems = [
   { label: 'Overview',         icon: '🏠', path: '/doctor/overreview' },
@@ -18,9 +17,7 @@ export default function PatientRequest() {
   const fetchRealAppointments = async () => {
     let fetched = []
     try {
-      const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
-      const headers = token ? { Authorization: `Bearer ${token}` } : {};
-      const res = await axios.get(`${API_BASE_URL}/api/appointments`, { headers })
+      const res = await api.get('/api/appointments')
       if (res.data?.data) {
         fetched = res.data.data.map(a => ({
           id: a.id,
@@ -71,11 +68,9 @@ export default function PatientRequest() {
 
     // Sync backend if available
     try {
-      const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
-      const headers = token ? { Authorization: `Bearer ${token}` } : {};
-      await axios.put(`${API_BASE_URL}/api/appointments/${id}/respond`, {
+      await api.put(`/api/appointments/${id}/respond`, {
         status: responseStatus
-      }, { headers })
+      })
     } catch (err) {
       console.log('Backend sync notice:', err.message)
     }

@@ -53,7 +53,8 @@ export const login = async (req, res) => {
 // Refresh Access Token
 export const refreshToken = async (req, res) => {
   try {
-    const token = req.cookies.refreshToken;
+    // Accept token from cookie (same device) OR from request body (cross-device fallback)
+    const token = req.cookies.refreshToken || req.body.refreshToken;
 
     if (!token) {
       return res.status(401).json({

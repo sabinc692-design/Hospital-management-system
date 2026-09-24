@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 const Footer = () => {
   return (
@@ -23,7 +22,7 @@ const Footer = () => {
         paddingBottom: '2.5rem',
         borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
       }}>
-        
+
         {/* Column 1: Platform Brand Info */}
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1rem' }}>
@@ -51,54 +50,10 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Column 2: Quick Links */}
+        {/* Column 2: Contact & Developer Info */}
         <div>
           <h4 style={{ color: '#f1f5f9', fontSize: '0.95rem', fontWeight: 700, marginBottom: '1.2rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-            Quick Navigation
-          </h4>
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.7rem', fontSize: '0.875rem' }}>
-            <li>
-              <Link to="/" style={{ color: '#94a3b8', textDecoration: 'none', transition: 'color 0.2s' }}
-                onMouseEnter={e => e.target.style.color = '#06b6d4'}
-                onMouseLeave={e => e.target.style.color = '#94a3b8'}>
-                Home & Landing Page
-              </Link>
-            </li>
-            <li>
-              <Link to="/patient/overreview" style={{ color: '#94a3b8', textDecoration: 'none', transition: 'color 0.2s' }}
-                onMouseEnter={e => e.target.style.color = '#06b6d4'}
-                onMouseLeave={e => e.target.style.color = '#94a3b8'}>
-                Patient Portal
-              </Link>
-            </li>
-            <li>
-              <Link to="/doctor/overreview" style={{ color: '#94a3b8', textDecoration: 'none', transition: 'color 0.2s' }}
-                onMouseEnter={e => e.target.style.color = '#06b6d4'}
-                onMouseLeave={e => e.target.style.color = '#94a3b8'}>
-                Doctor Dashboard
-              </Link>
-            </li>
-            <li>
-              <Link to="/reciptionist/overreview" style={{ color: '#94a3b8', textDecoration: 'none', transition: 'color 0.2s' }}
-                onMouseEnter={e => e.target.style.color = '#06b6d4'}
-                onMouseLeave={e => e.target.style.color = '#94a3b8'}>
-                Receptionist Desk
-              </Link>
-            </li>
-            <li>
-              <Link to="/admin/overreview" style={{ color: '#94a3b8', textDecoration: 'none', transition: 'color 0.2s' }}
-                onMouseEnter={e => e.target.style.color = '#06b6d4'}
-                onMouseLeave={e => e.target.style.color = '#94a3b8'}>
-                Admin Portal
-              </Link>
-            </li>
-          </ul>
-        </div>
-
-        {/* Column 3: Contact & Developer Info */}
-        <div>
-          <h4 style={{ color: '#f1f5f9', fontSize: '0.95rem', fontWeight: 700, marginBottom: '1.2rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-            Contact & Developer
+            Contact &amp; Developer
           </h4>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', fontSize: '0.875rem' }}>
             <div style={{
@@ -108,7 +63,7 @@ const Footer = () => {
               padding: '0.85rem 1rem',
             }}>
               <div style={{ fontSize: '0.75rem', color: '#06b6d4', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.25rem' }}>
-                Lead Developer & System Architect
+                Lead Developer &amp; System Architect
               </div>
               <div style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '1rem' }}>
                 Sabin Chaulagain

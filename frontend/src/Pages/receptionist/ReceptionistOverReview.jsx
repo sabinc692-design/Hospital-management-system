@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import DashboardLayout from '../../components/DashboardLayout'
-import { API_BASE_URL } from '../../config/api'
+import { api } from '../../config/api'
 
 const navItems = [
   { label: 'Overview',          icon: '🏠', path: '/reciptionist/overreview' },
@@ -35,12 +34,10 @@ export default function ReceptionistOverReview() {
 
   const fetchData = async () => {
     try {
-      const token = localStorage.getItem('accessToken') || localStorage.getItem('token')
-      const headers = { Authorization: `Bearer ${token}` }
       const [appRes, docRes, patRes] = await Promise.all([
-        axios.get(`${API_BASE_URL}/api/appointments`, { headers }),
-        axios.get(`${API_BASE_URL}/api/doctors`, { headers }),
-        axios.get(`${API_BASE_URL}/api/patients`, { headers }),
+        api.get('/api/appointments'),
+        api.get('/api/doctors'),
+        api.get('/api/patients'),
       ])
       if (appRes.data && appRes.data.data) setAppointments(appRes.data.data)
       if (docRes.data && docRes.data.data) setDoctors(docRes.data.data)

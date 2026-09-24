@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import DashboardLayout from '../../components/DashboardLayout'
-import axios from 'axios'
-import { API_BASE_URL } from '../../config/api'
+import { api } from '../../config/api'
 
 const navItems = [
   { label: 'Overview',          icon: '🏠', path: '/reciptionist/overreview' },
@@ -24,9 +23,7 @@ export default function AvailableDoctors() {
     setLoading(true)
     let fetched = []
     try {
-      const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
-      const headers = token ? { Authorization: `Bearer ${token}` } : {};
-      const res = await axios.get(`${API_BASE_URL}/api/doctors`, { headers })
+      const res = await api.get('/api/doctors')
       if (res.data?.data) {
         fetched = res.data.data.map(d => ({
           name: `Dr. ${d.firstName} ${d.lastName || ''}`.trim(),

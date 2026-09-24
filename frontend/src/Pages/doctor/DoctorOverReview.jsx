@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import DashboardLayout from '../../components/DashboardLayout'
-import { API_BASE_URL } from '../../config/api'
+import { api } from '../../config/api'
 
 const navItems = [
   { label: 'Overview',        icon: '🏠', path: '/doctor/overreview' },
@@ -34,10 +33,7 @@ export default function DoctorOverReview() {
 
   const fetchAppointments = async () => {
     try {
-      const token = localStorage.getItem('accessToken') || localStorage.getItem('token')
-      const res = await axios.get(`${API_BASE_URL}/api/appointments`, {
-        headers: { Authorization: `Bearer ${token}` }
-      })
+      const res = await api.get('/api/appointments')
       if (res.data && res.data.data) {
         setAppointments(res.data.data)
       }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import DashboardLayout from '../../components/DashboardLayout'
-import { API_BASE_URL } from '../../config/api'
+import { api } from '../../config/api'
 
 const navItems = [
   { label: 'Overview',    icon: '🏠', path: '/patient/overreview' },
@@ -84,11 +84,8 @@ export default function Doctors() {
   const [doctorsList, setDoctorsList] = useState([])
 
   React.useEffect(() => {
-    const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
-    fetch(`${API_BASE_URL}/api/doctors`, {
-      headers: token ? { Authorization: `Bearer ${token}` } : {}
-    })
-      .then(res => res.json())
+    api.get('/api/doctors')
+      .then(res => res.data)
       .then(data => {
         if (data.success) {
           const docs = data.data.map(d => ({

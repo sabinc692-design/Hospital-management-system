@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import DashboardLayout from '../../components/DashboardLayout'
-import axios from 'axios'
-import { API_BASE_URL } from '../../config/api'
+import { api } from '../../config/api'
 
 const navItems = [
   { label: 'Overview',          icon: '🏠', path: '/reciptionist/overreview' },
@@ -22,13 +21,10 @@ export default function IncomingPatients() {
   const [assigning, setAssigning]       = useState(false)
 
   const fetchRealData = async () => {
-    const token = localStorage.getItem('accessToken') || localStorage.getItem('token')
-    const headers = token ? { Authorization: `Bearer ${token}` } : {}
-
     // 1. Fetch Doctors
     // /api/doctors returns User objects: { id, firstName, lastName, doctorProfile: { specialization } }
     try {
-      const docRes = await axios.get(`${API_BASE_URL}/api/doctors`, { headers })
+      const docRes = await api.get('/api/doctors')
       if (docRes.data?.data) {
         const docs = docRes.data.data.map(d => ({
           id: d.doctorProfile?.id || d.id,
@@ -45,7 +41,7 @@ export default function IncomingPatients() {
     // /api/appointments returns appointments with patient user info nested
     let fetched = []
     try {
-      const aptRes = await axios.get(`${API_BASE_URL}/api/appointments`, { headers })
+      const aptRes = await api.get('/api/appointments')
       if (aptRes.data?.data) {
         fetched = aptRes.data.data.map(a => {
           // Patient info can come from a.Patient.User (via association) or a.user (direct join)
@@ -100,11 +96,9 @@ export default function IncomingPatients() {
 
     setAssigning(true)
     try {
-      const token = localStorage.getItem('accessToken') || localStorage.getItem('token')
-      await axios.put(
-        `${API_BASE_URL}/api/appointments/${selectedApt.id}/assign`,
-        { doctorId: selectedDoc },
-        { headers: { Authorization: `Bearer ${token}` } }
+      await api.put(
+        `/api/appointments/${selectedApt.id}/assign`,
+        { doctorId: selectedDoc }
       )
       setSelectedApt(null)
       setSelectedDoc('')

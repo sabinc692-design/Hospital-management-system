@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import DashboardLayout from '../../components/DashboardLayout'
-import axios from 'axios'
-import { API_BASE_URL } from '../../config/api'
+import { api, API_BASE_URL } from '../../config/api'
 
 const navItems = [
   { label: 'Overview',    icon: '🏠', path: '/patient/overreview' },
@@ -24,10 +23,8 @@ export default function Appointment() {
 
   const fetchRealAppointments = async () => {
     try {
-      const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
-      const headers = token ? { Authorization: `Bearer ${token}` } : {};
       const storedUserObj = JSON.parse(localStorage.getItem('user') || '{}')
-      const res = await axios.get(`${API_BASE_URL}/api/appointments`, { headers })
+      const res = await api.get('/api/appointments')
       if (res.data?.data) {
         // Filter: only show THIS patient's appointments
         const myId = storedUserObj.id
@@ -75,18 +72,14 @@ export default function Appointment() {
     if (!reason.trim()) return alert('Please describe your medical problem or symptoms.')
     if (!date) return alert('Please select a preferred date.')
 
-    const storedUserObj = JSON.parse(localStorage.getItem('user') || '{}')
-    const token = localStorage.getItem('accessToken') || localStorage.getItem('token')
-    const headers = token ? { Authorization: `Bearer ${token}` } : {}
-
     try {
-      const response = await axios.post(`${API_BASE_URL}/api/appointments`, {
+      const response = await api.post('/api/appointments', {
         appointmentDate: date,
         timeSlot: slot || '10:00 AM',
         reason: reason.trim(),
         status: 'pending'
         // patientId is auto-set from token on backend
-      }, { headers })
+      })
 
       if (response.data?.success) {
         setSuccess(true)

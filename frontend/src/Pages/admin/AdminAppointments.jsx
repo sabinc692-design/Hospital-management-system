@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import DashboardLayout from '../../components/DashboardLayout'
-import { API_BASE_URL } from '../../config/api'
+import { api } from '../../config/api'
 
 const navItems = [
   { label: 'Overview',     icon: '🏠', path: '/admin/overreview' },
@@ -18,11 +18,8 @@ export default function AdminAppointments() {
   const [search, setSearch] = useState('')
 
   React.useEffect(() => {
-    const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
-    fetch(`${API_BASE_URL}/api/appointments`, {
-      headers: token ? { Authorization: `Bearer ${token}` } : {}
-    })
-      .then(res => res.json())
+    api.get('/api/appointments')
+      .then(res => res.data)
       .then(data => {
         if (data.success) {
           const apts = data.data.map(a => ({
