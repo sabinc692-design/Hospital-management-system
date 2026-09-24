@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import Footer from './Footer'
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false)
@@ -124,13 +125,20 @@ const Login = () => {
       minHeight: '100vh',
       background: '#0a0f1e',
       display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+      flexDirection: 'column',
       position: 'relative',
-      overflow: 'hidden',
+      overflowX: 'hidden',
       fontFamily: "'Inter', sans-serif",
-      padding: '2rem 1rem',
     }}>
+      <div style={{
+        flex: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '3rem 1rem',
+        width: '100%',
+        boxSizing: 'border-box',
+      }}>
 
       {/* Background blobs */}
       <div style={{
@@ -340,6 +348,9 @@ const Login = () => {
         input::placeholder { color: #374151; }
         textarea::placeholder { color: #374151; }
       `}</style>
+      </div>
+      
+      <Footer />
     </div>
   )
 }

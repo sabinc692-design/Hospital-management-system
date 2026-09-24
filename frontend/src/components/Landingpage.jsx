@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import Footer from './Footer'
 
 /* ── Navigation links ── */
 const navLinks = [
@@ -564,25 +565,7 @@ const Landingpage = () => {
       </section>
 
       {/* ══ FOOTER ══ */}
-      <footer style={{
-        background: 'rgba(0,0,0,0.4)',
-        borderTop: '1px solid rgba(255,255,255,0.07)',
-        padding: '2.5rem 2rem',
-        textAlign: 'center',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem', marginBottom: '1rem' }}>
-          <div style={{
-            width: 32, height: 32, borderRadius: 8,
-            background: 'linear-gradient(135deg, #06b6d4, #3b82f6)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '1rem',
-          }}>✚</div>
-          <span style={{ fontWeight: 700, fontSize: '1rem' }}>MediCare <span style={{ color: '#06b6d4' }}>HMS</span></span>
-        </div>
-        <div style={{ color: '#374151', fontSize: '0.85rem' }}>
-          © {new Date().getFullYear()} MediCare Hospital Management System. All rights reserved.
-        </div>
-      </footer>
+      <Footer />
 
       {/* ══ Responsive styles ══ */}
       <style>{`

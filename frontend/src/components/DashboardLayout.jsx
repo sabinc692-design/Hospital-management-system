@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import Footer from './Footer'
 
 /*
   DashboardLayout — shared sidebar + topbar shell
@@ -311,8 +312,11 @@ export default function DashboardLayout({ role, navItems, children }) {
         </header>
 
         {/* Page Content */}
-        <main style={{ flex: 1, padding: '1.75rem', overflowY: 'auto' }}>
-          {children}
+        <main style={{ flex: 1, padding: '1.75rem 1.75rem 0 1.75rem', overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
+          <div style={{ flex: 1, paddingBottom: '1.75rem' }}>
+            {children}
+          </div>
+          <Footer />
         </main>
       </div>
 
