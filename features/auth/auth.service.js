@@ -1,6 +1,9 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../user/user.model.js"; 
+import Patient from "../patient/patient.model.js";
+import Doctor from "../doctor/doctor.model.js";
+import Receptionist from "../Receptionist/Receptionist.model.js";
 
 // Register Service
 
@@ -44,6 +47,7 @@ export const registerService = async (userData) => {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   // Create user
+  const isDoctor = role === "Doctor";
   const user = await User.create({
     firstName,
     lastName,
@@ -55,7 +59,36 @@ export const registerService = async (userData) => {
     address,
     profileImage,
     role,
+    status: isDoctor ? "Pending" : "Active",
+    isVerified: isDoctor ? false : true,
   });
+
+  // Create role-specific profile
+  if (role === "Patient") {
+    await Patient.create({
+      userId: user.id,
+      firstName,
+      lastName,
+      bloodGroup: userData.bloodGroup || null,
+    });
+  } else if (role === "Doctor") {
+    await Doctor.create({
+      userId: user.id,
+      firstName,
+      lastName,
+      specialization: userData.specialization || "General",
+      qualification: userData.qualification || "MBBS",
+      consultationFee: userData.consultationFee || 500.00,
+      licenseNumber: userData.licenseNumber || `DOC-${Date.now()}`,
+    });
+  } else if (role === "Receptionist") {
+    await Receptionist.create({
+      userId: user.id,
+      firstName,
+      lastName,
+      employeeId: userData.employeeId || `REC-${Date.now()}`,
+    });
+  }
 
   // Remove password before returning
   const userResponse = user.toJSON();
@@ -85,6 +118,13 @@ export const loginService = async ({ email, password }) => {
   if (!isMatch) {
     const error = new Error("Invalid email or password.");
     error.statusCode = 401;
+    throw error;
+  }
+
+  // Check if doctor registration is pending admin approval
+  if (user.role === "Doctor" && user.status === "Pending") {
+    const error = new Error("Your doctor account registration is pending admin approval. You cannot log in until approved by an administrator.");
+    error.statusCode = 403;
     throw error;
   }
 

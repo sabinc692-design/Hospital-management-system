@@ -83,3 +83,31 @@ export const authorize = (...allowedRoles) => {
     next();
   };
 };
+
+// Soft authenticate — sets req.user if token is valid, but never blocks the request
+export const softAuthenticate = async (req, res, next) => {
+  try {
+    let token;
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("Bearer ")
+    ) {
+      token = req.headers.authorization.split(" ")[1];
+    } else if (req.cookies && req.cookies.accessToken) {
+      token = req.cookies.accessToken;
+    }
+
+    if (token) {
+      const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+      const user = await User.findByPk(decoded.id, {
+        attributes: { exclude: ["password"] },
+      });
+      if (user && user.status === "Active") {
+        req.user = user;
+      }
+    }
+  } catch (_) {
+    // Token invalid or missing — that's fine, just proceed without req.user
+  }
+  next();
+};

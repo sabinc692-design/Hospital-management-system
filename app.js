@@ -21,18 +21,25 @@ import patientRoutes from "./features/patient/patient.routes.js";
 import doctorDepartmentRoutes from "./features/doctorDepartment/doctorDepartment.routes.js";
 import appointmentRoutes from "./features/appointment/appointment.routes.js";
 import doctorRoutes from "./features/doctor/doctor.routes.js";
-import receptionistRoutes from "./features/Receptionist/Receptionist.routes.js"
+import receptionistRoutes from "./features/Receptionist/Receptionist.routes.js";
+import userRoutes from "./features/user/user.routes.js";
 dotenv.config();
 
+import cors from "cors";
 const app = express();
 
-// Middleware
+// Middleware and cros setup
+app.use(cors({ 
+  origin: ["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:3000"], 
+  credentials: true 
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser()); // moved above routes
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api/departments", departmentRoutes);
 app.use("/api/patients", patientRoutes);
 

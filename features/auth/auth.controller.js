@@ -39,6 +39,7 @@ export const login = async (req, res) => {
       success: true,
       message: "Login successful.",
       accessToken: result.accessToken,
+      refreshToken: result.refreshToken, // Added for frontend access
       user: result.user,
     });
   } catch (error) {

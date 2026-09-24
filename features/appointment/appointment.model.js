@@ -17,7 +17,7 @@ import sequelize from "../../config/connection.js";
 
     doctorId: {
       type: DataTypes.UUID,
-      allowNull: false,
+      allowNull: true,
     },
 
     appointmentDate: {
@@ -25,9 +25,22 @@ import sequelize from "../../config/connection.js";
       allowNull: false,
     },
 
+    timeSlot: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+
+    reason: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+
     status: {
       type: DataTypes.ENUM(
         "pending",
+        "assigned",
+        "accepted",
+        "rejected",
         "confirmed",
         "completed",
         "cancelled"
