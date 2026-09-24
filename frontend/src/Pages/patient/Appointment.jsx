@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import DashboardLayout from '../../components/DashboardLayout'
 import axios from 'axios'
+import { API_BASE_URL } from '../../config/api'
 
 const navItems = [
   { label: 'Overview',    icon: '🏠', path: '/patient/overreview' },
@@ -26,7 +27,7 @@ export default function Appointment() {
       const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
       const storedUserObj = JSON.parse(localStorage.getItem('user') || '{}')
-      const res = await axios.get('http://localhost:5001/api/appointments', { headers })
+      const res = await axios.get(`${API_BASE_URL}/api/appointments`, { headers })
       if (res.data?.data) {
         // Filter: only show THIS patient's appointments
         const myId = storedUserObj.id
@@ -79,7 +80,7 @@ export default function Appointment() {
     const headers = token ? { Authorization: `Bearer ${token}` } : {}
 
     try {
-      const response = await axios.post('http://localhost:5001/api/appointments', {
+      const response = await axios.post(`${API_BASE_URL}/api/appointments`, {
         appointmentDate: date,
         timeSlot: slot || '10:00 AM',
         reason: reason.trim(),

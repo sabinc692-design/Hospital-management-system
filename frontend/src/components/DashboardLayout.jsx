@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Footer from './Footer'
+import { API_BASE_URL } from '../config/api'
 
 /*
   DashboardLayout — shared sidebar + topbar shell
@@ -41,7 +42,7 @@ export default function DashboardLayout({ role, navItems, children }) {
       try {
         const token = localStorage.getItem('accessToken') || localStorage.getItem('token')
         if (!token) return
-        const res = await axios.get('http://localhost:5001/api/appointments', {
+        const res = await axios.get(`${API_BASE_URL}/api/appointments`, {
           headers: { Authorization: `Bearer ${token}` }
         })
         if (res.data?.data) {

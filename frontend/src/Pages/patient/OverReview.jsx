@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import DashboardLayout from '../../components/DashboardLayout'
+import { API_BASE_URL } from '../../config/api'
 
 const navItems = [
   { label: 'Overview',    icon: '🏠', path: '/patient/overreview' },
@@ -69,7 +70,7 @@ export default function OverReview() {
       const storedUserObj = JSON.parse(localStorage.getItem('user') || '{}')
       const myId = storedUserObj.id
 
-      const res = await axios.get('http://localhost:5001/api/appointments', {
+      const res = await axios.get(`${API_BASE_URL}/api/appointments`, {
         headers: { Authorization: `Bearer ${token}` }
       })
       if (res.data && res.data.data) {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import DashboardLayout from '../../components/DashboardLayout'
 import axios from 'axios'
+import { API_BASE_URL } from '../../config/api'
 
 const navItems = [
   { label: 'Overview',          icon: '🏠', path: '/reciptionist/overreview' },
@@ -27,7 +28,7 @@ export default function IncomingPatients() {
     // 1. Fetch Doctors
     // /api/doctors returns User objects: { id, firstName, lastName, doctorProfile: { specialization } }
     try {
-      const docRes = await axios.get('http://localhost:5001/api/doctors', { headers })
+      const docRes = await axios.get(`${API_BASE_URL}/api/doctors`, { headers })
       if (docRes.data?.data) {
         const docs = docRes.data.data.map(d => ({
           id: d.doctorProfile?.id || d.id,
@@ -44,7 +45,7 @@ export default function IncomingPatients() {
     // /api/appointments returns appointments with patient user info nested
     let fetched = []
     try {
-      const aptRes = await axios.get('http://localhost:5001/api/appointments', { headers })
+      const aptRes = await axios.get(`${API_BASE_URL}/api/appointments`, { headers })
       if (aptRes.data?.data) {
         fetched = aptRes.data.data.map(a => {
           // Patient info can come from a.Patient.User (via association) or a.user (direct join)
@@ -101,7 +102,7 @@ export default function IncomingPatients() {
     try {
       const token = localStorage.getItem('accessToken') || localStorage.getItem('token')
       await axios.put(
-        `http://localhost:5001/api/appointments/${selectedApt.id}/assign`,
+        `${API_BASE_URL}/api/appointments/${selectedApt.id}/assign`,
         { doctorId: selectedDoc },
         { headers: { Authorization: `Bearer ${token}` } }
       )

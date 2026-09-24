@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import DashboardLayout from '../../components/DashboardLayout'
+import { API_BASE_URL } from '../../config/api'
 
 const navItems = [
   { label: 'Overview',    icon: '🏠', path: '/patient/overreview' },
@@ -84,7 +85,7 @@ export default function Doctors() {
 
   React.useEffect(() => {
     const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
-    fetch('http://localhost:5001/api/doctors', {
+    fetch(`${API_BASE_URL}/api/doctors`, {
       headers: token ? { Authorization: `Bearer ${token}` } : {}
     })
       .then(res => res.json())

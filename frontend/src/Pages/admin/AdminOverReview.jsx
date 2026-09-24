@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import DashboardLayout from '../../components/DashboardLayout'
+import { API_BASE_URL } from '../../config/api'
 
 const navItems = [
   { label: 'Overview',     icon: '🏠', path: '/admin/overreview' },
@@ -46,10 +47,10 @@ export default function AdminOverReview() {
       const token = localStorage.getItem('token')
       const headers = { Authorization: `Bearer ${token}` }
       const [uRes, dRes, pRes, aRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/users', { headers }),
-        axios.get('http://localhost:5000/api/doctors', { headers }),
-        axios.get('http://localhost:5000/api/patients', { headers }),
-        axios.get('http://localhost:5000/api/appointments', { headers }),
+        axios.get(`${API_BASE_URL}/api/users`, { headers }),
+        axios.get(`${API_BASE_URL}/api/doctors`, { headers }),
+        axios.get(`${API_BASE_URL}/api/patients`, { headers }),
+        axios.get(`${API_BASE_URL}/api/appointments`, { headers }),
       ])
       if (uRes.data && uRes.data.data) setUsersCount(uRes.data.data.length)
       if (dRes.data && dRes.data.data) setDoctors(dRes.data.data)

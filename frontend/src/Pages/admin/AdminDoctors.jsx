@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import DashboardLayout from '../../components/DashboardLayout'
 import axios from 'axios'
+import { API_BASE_URL } from '../../config/api'
 
 const navItems = [
   { label: 'Overview',     icon: '🏠', path: '/admin/overreview' },
@@ -50,7 +51,7 @@ export default function AdminDoctors() {
     try {
       const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
-      const docRes = await axios.get('http://localhost:5001/api/doctors', { headers })
+      const docRes = await axios.get(`${API_BASE_URL}/api/doctors`, { headers })
       if (docRes.data?.data) {
         fetched = docRes.data.data.map(d => ({
           id: d.id,
@@ -72,7 +73,7 @@ export default function AdminDoctors() {
     try {
       const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
-      const userRes = await axios.get('http://localhost:5001/api/users', { headers })
+      const userRes = await axios.get(`${API_BASE_URL}/api/users`, { headers })
       if (userRes.data?.data) {
         const docUsers = userRes.data.data.filter(u => u.role === 'Doctor')
         docUsers.forEach(u => {
@@ -121,7 +122,7 @@ export default function AdminDoctors() {
   // Approve Doctor Registration
   const handleApprove = async (docId) => {
     try {
-      await axios.put(`http://localhost:5001/api/users/${docId}/approve-doctor`)
+      await axios.put(`${API_BASE_URL}/api/users/${docId}/approve-doctor`)
     } catch (e) {
       console.log('Backend sync notice:', e.message)
     }
@@ -156,7 +157,7 @@ export default function AdminDoctors() {
     }
 
     try {
-      await axios.post('http://localhost:5001/api/users/create-doctor', {
+      await axios.post(`${API_BASE_URL}/api/users/create-doctor`, {
         firstName: addForm.firstName,
         lastName: addForm.lastName,
         email: addForm.email,
@@ -196,7 +197,7 @@ export default function AdminDoctors() {
   const handleDeleteDoc = async (docId) => {
     if (!window.confirm('Are you sure you want to remove this doctor from the system?')) return
     try {
-      await axios.delete(`http://localhost:5001/api/users/${docId}`)
+      await axios.delete(`${API_BASE_URL}/api/users/${docId}`)
     } catch (err) {
       console.log('Delete notice:', err.message)
     }

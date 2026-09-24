@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import DashboardLayout from '../../components/DashboardLayout'
 import axios from 'axios'
+import { API_BASE_URL } from '../../config/api'
 
 const navItems = [
   { label: 'Overview',         icon: '🏠', path: '/doctor/overreview' },
@@ -19,7 +20,7 @@ export default function PatientRequest() {
     try {
       const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
-      const res = await axios.get('http://localhost:5001/api/appointments', { headers })
+      const res = await axios.get(`${API_BASE_URL}/api/appointments`, { headers })
       if (res.data?.data) {
         fetched = res.data.data.map(a => ({
           id: a.id,
@@ -72,7 +73,7 @@ export default function PatientRequest() {
     try {
       const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
-      await axios.put(`http://localhost:5001/api/appointments/${id}/respond`, {
+      await axios.put(`${API_BASE_URL}/api/appointments/${id}/respond`, {
         status: responseStatus
       }, { headers })
     } catch (err) {

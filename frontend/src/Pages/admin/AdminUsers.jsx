@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import DashboardLayout from '../../components/DashboardLayout'
 import axios from 'axios'
+import { API_BASE_URL } from '../../config/api'
 
 const navItems = [
   { label: 'Overview',     icon: '🏠', path: '/admin/overreview' },
@@ -27,7 +28,7 @@ export default function AdminUsers() {
     try {
       const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
-      const res = await axios.get('http://localhost:5001/api/users', { headers })
+      const res = await axios.get(`${API_BASE_URL}/api/users`, { headers })
       if (res.data?.data) {
         fetched = res.data.data.map(u => ({
           id: u.id,
@@ -65,7 +66,7 @@ export default function AdminUsers() {
 
   const handleStatusChange = async (userId, newStatus) => {
     try {
-      await axios.put(`http://localhost:5001/api/users/${userId}`, { status: newStatus })
+      await axios.put(`${API_BASE_URL}/api/users/${userId}`, { status: newStatus })
     } catch (e) {
       console.log('Backend sync notice:', e.message)
     }
@@ -77,7 +78,7 @@ export default function AdminUsers() {
   const handleDeleteUser = async (userId) => {
     if (!window.confirm('Are you sure you want to delete this user permanently?')) return
     try {
-      await axios.delete(`http://localhost:5001/api/users/${userId}`)
+      await axios.delete(`${API_BASE_URL}/api/users/${userId}`)
     } catch (e) {
       console.log('Backend sync notice:', e.message)
     }

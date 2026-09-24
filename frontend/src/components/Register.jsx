@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Footer from './Footer'
+import { API_BASE_URL } from '../config/api'
 
 /* ── Role definitions ── */
 const roles = [
@@ -120,7 +121,7 @@ const Register = () => {
 
       let apiSuccess = false;
       try {
-        const response = await axios.post('http://localhost:5001/api/auth/register', payload)
+        const response = await axios.post(`${API_BASE_URL}/api/auth/register`, payload)
         if (response.data.success) {
           apiSuccess = true;
         }
